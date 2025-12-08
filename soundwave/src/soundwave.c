@@ -176,7 +176,6 @@ int parse_header() {
     return 0;
 }
 
-/* ---------------- INFO ---------------- */
 
 void run_info() {
     if (parse_header() != 0)
