@@ -147,7 +147,7 @@ int parse_header() {
         return 1;
     }
 
-    unsigned int expected_align = (BitsPerSample / 8) * Channels;
+    unsigned int expected_align = Channels * (BitsPerSample / 8); // Διόρθωση
     if (BlockAlign != expected_align) {
         fprintf(stderr, "Error! block alignment should be bits per sample / 8 x mono/stereo\n");
         return 1;
@@ -168,16 +168,10 @@ int parse_header() {
     printf("size of data chunk: %u\n", SizeOfData);
 
     // check for insufficient data
-    unsigned int total_expected = SizeOfFile + 8;
-    unsigned int data_needed = bytes_consumed + SizeOfData;
-
-    if (data_needed > total_expected) {
+    if (bytes_consumed + SizeOfData > SizeOfFile + 8) { // Διόρθωση
         fprintf(stderr, "Error! insufficient data\n");
         return 1;
     }
-
-    // check for extra bytes past end
-    // here we do not read them; main logic will detect later
 
     return 0;
 }
